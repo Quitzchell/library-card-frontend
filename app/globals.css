@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Design tokens & custom properties */
+:root {
+  --radius: 0.625rem;
+  --background: #ffffff;
+  --foreground: #171717;
+  --font-ibm-plex-mono: "IBM Plex Mono", monospace;
+}
+
+/* Tailwind v4 CSS‑first theming */
+@theme {
+  /* base font + colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-family-mono: var(--font-ibm-plex-mono);
+
+  /* border radii */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* additional color(s) */
+  --color-primary: #1c451f;
+}
+
+/* Container utility customisation */
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+
+  @variant lg {
+    padding-inline: 6rem;
+  }
+}
+
+/* Base body styles */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-family-mono);
+}

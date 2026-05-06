@@ -1,0 +1,27 @@
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+.devcontainer/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+.next/
+.env.local
+
+# Docs
+*.md
+!README.md
+
+# Testing
+coverage/
+.nyc_output/
