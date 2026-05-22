@@ -12,10 +12,10 @@ type TourListProps = {
 };
 
 export default function TourList({
-  tourDates,
-  direction,
-  emptySlots = 0,
-}: TourListProps) {
+                                   tourDates,
+                                   direction,
+                                   emptySlots = 0,
+                                 }: TourListProps) {
   const isUpcoming = direction === TourDateEnum.UPCOMING;
 
   return (
@@ -32,9 +32,9 @@ export default function TourList({
 }
 
 function TourRow({
-  tourDate,
-  showTickets,
-}: {
+                   tourDate,
+                   showTickets,
+                 }: {
   tourDate: TourDate;
   showTickets: boolean;
 }) {
@@ -72,7 +72,7 @@ function TourRow({
 
 function TicketButtonContent({ tourDate }: { tourDate: TourDate }) {
   const baseClasses =
-    "col-span-4 md:col-span-2 px-4 flex size-full text-center items-center justify-center border";
+    "col-span-4 md:col-span-2 px-4 flex size-full text-center items-center justify-center border whitespace-normal h-auto";
 
   if (tourDate.sold_out)
     return (
@@ -83,7 +83,9 @@ function TicketButtonContent({ tourDate }: { tourDate: TourDate }) {
         asChild
         className={cn(baseClasses, "hover:cursor-not-allowed")}
       >
-        <p className="font-semibold text-balance line-through">Sold out</p>
+        <p className="font-semibold text-balance break-words whitespace-normal line-through">
+          Sold out
+        </p>
       </Button>
     );
 
@@ -91,7 +93,9 @@ function TicketButtonContent({ tourDate }: { tourDate: TourDate }) {
     return (
       <Button asChild variant="outline" className={baseClasses}>
         <Link href={tourDate.ticket_url} target="_blank">
-          <p className="font-semibold text-balance">Tickets</p>
+          <p className="font-semibold text-balance break-words whitespace-normal">
+            Tickets
+          </p>
         </Link>
       </Button>
     );
@@ -104,7 +108,9 @@ function TicketButtonContent({ tourDate }: { tourDate: TourDate }) {
       aria-disabled
       className={cn(baseClasses, "hover:cursor-not-allowed")}
     >
-      <p className="font-semibold text-balance">Free event</p>
+      <p className="font-semibold text-balance break-words whitespace-normal">
+        Free event
+      </p>
     </Button>
   );
 }

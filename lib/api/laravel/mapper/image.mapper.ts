@@ -3,7 +3,7 @@ import { LaravelImage } from "@/lib/api/laravel/interfaces/image";
 import { CarouselImage } from "@/lib/interfaces/image";
 
 export function mapImage(
-  response: LaravelResponse<LaravelImage[]>
+  response: LaravelResponse<LaravelImage[]>,
 ): CarouselImage[] {
   return response.data.map(
     (image: LaravelImage, index: number): CarouselImage => {
@@ -11,8 +11,8 @@ export function mapImage(
         id: index,
         image: image.url,
         alt: image.alt,
-        order: image.position
+        order: image.position,
       };
-    }
+    },
   );
 }

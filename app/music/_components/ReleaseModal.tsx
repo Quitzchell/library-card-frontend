@@ -24,29 +24,33 @@ export default function ReleaseModal({ release }: { release: Release }) {
           {release.title}
         </p>
       </DialogTrigger>
-      <DialogContent className="flex max-h-[85vh] flex-col gap-y-0 overflow-hidden">
-        <DialogHeader className="my-2 shrink-0 space-y-2 text-left">
+      <DialogContent className="flex flex-col md:max-w-2xl md:flex-row lg:max-w-4xl">
+        <DialogHeader className="space-y-2 md:w-1/2 lg:w-3/8">
           <DialogTitle>{release.title}</DialogTitle>
           <DialogDescription className="sr-only">
             Streaming links for {release.title}
           </DialogDescription>
-          <Image
-            src={release.cover_image}
-            width={1080}
-            height={1080}
-            alt={release.title}
-          />
+          <div className="flex justify-center md:block md:size-75">
+            <Image
+              src={release.cover_image}
+              width={500}
+              height={500}
+              alt={release.title}
+            />
+          </div>
         </DialogHeader>
 
-        <div className="-mx-6 min-h-0 overflow-y-auto px-6">
-          {release.stores &&
-            release.stores.map((store: Store, index) => (
-              <ReleaseLinks key={index} link={store} />
-            ))}
-          {release.services &&
-            release.services.map((service: Service, index) => (
-              <ReleaseLinks key={index} link={service} />
-            ))}
+        <div className="bg-foreground h-47 overflow-x-auto border md:mt-8.5 md:h-75">
+          <div className="bg-background divide-y">
+            {release.stores &&
+              release.stores.map((store: Store, index) => (
+                <ReleaseLinks key={index} link={store} />
+              ))}
+            {release.services &&
+              release.services.map((service: Service, index) => (
+                <ReleaseLinks key={index} link={service} />
+              ))}
+          </div>
         </div>
       </DialogContent>
     </Dialog>

@@ -10,9 +10,9 @@ export const teamService = {
     if (category) params.set("team", category);
     const query = params.toString();
 
-    const response = await apiClient.get<
-      LaravelResponse<LaravelTeamMember[]>
-    >(`/team-members${query ? `?${query}` : ""}`);
+    const response = await apiClient.get<LaravelResponse<LaravelTeamMember[]>>(
+      `/team-members${query ? `?${query}` : ""}`,
+    );
 
     return mapTeams(response.data);
   },

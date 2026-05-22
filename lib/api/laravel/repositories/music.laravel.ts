@@ -14,9 +14,8 @@ export const musicService = {
   },
 
   async getAllReleases(): Promise<ReleaseResponse> {
-    const response = await apiClient.get<
-      LaravelPaginatedResponse<LaravelRelease>
-    >(`/music`);
+    const response =
+      await apiClient.get<LaravelPaginatedResponse<LaravelRelease>>(`/music`);
 
     const { data } = mapMusic(response);
     return { data };

@@ -7,9 +7,7 @@ import { LaravelResponse } from "@/lib/api/laravel/interfaces/responses";
 export const imageService = {
   async getCarouselImages(): Promise<CarouselImage[]> {
     const response =
-      await apiClient.get<LaravelResponse<LaravelImage[]>>(
-        `/biography-images`,
-      );
+      await apiClient.get<LaravelResponse<LaravelImage[]>>(`/biography-images`);
 
     return mapImage(response);
   },
