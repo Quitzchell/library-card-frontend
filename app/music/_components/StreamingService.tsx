@@ -4,7 +4,7 @@ import { Button } from "@/app/_components/ui/button";
 
 export default function ReleaseLinks({ link }: { link: ReleaseLink }) {
   return (
-    <Button asChild variant={"ghost"} className="border-b border-black">
+    <Button asChild variant={"ghost"}>
       <Link
         href={link.url}
         target={"_blank"}
