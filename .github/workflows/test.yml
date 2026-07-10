@@ -1,11 +1,16 @@
+# CI test workflow (Vitest) used by the private repo, mirrored here to
+# demonstrate the CI setup. It is intentionally INACTIVE in this public
+# portfolio mirror: there is no `pull_request` trigger and the job is guarded
+# with `if: ${{ false }}`, so it never runs.
 name: Test
 
 on:
-  pull_request:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
   test:
+    # Disabled in the public mirror — never executes.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
