@@ -1,0 +1,34 @@
+# Continuous deployment used by the private production repo, mirrored here to
+# demonstrate the CI/CD setup. It is intentionally INACTIVE in this public
+# portfolio mirror: there is no `push` trigger and the job is guarded with
+# `if: ${{ false }}`, so it never runs. The production host, deploy secrets,
+# and docker-compose.prod.yml live only in the private repo.
+name: Deploy frontend
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-frontend
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    # Disabled in the public mirror — never executes.
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: root
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -euo pipefail
+            cd /srv/library-card-web
+            git checkout main
+            git pull
+            # --env-file: the NEXT_PUBLIC_* build args are interpolated from it at build time
+            docker compose --env-file .env.production -f docker-compose.prod.yml up -d --build
+            docker image prune -f
