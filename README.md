@@ -63,9 +63,25 @@ make down    # tear down
 | `npm test` | Vitest run |
 | `npm run test:watch` | Vitest watch |
 
+## CI/CD
+
+GitHub Actions drive both continuous integration and deployment (`.github/workflows/`):
+
+- **`test.yml`** — CI: installs dependencies and runs the Vitest suite on every pull
+  request to `main`.
+- **`deploy.yml`** — CD: on push to `main`, deploys to the production VPS over SSH
+  (`appleboy/ssh-action`), pulling the latest code and rebuilding the stack via
+  `docker compose -f docker-compose.prod.yml`. Secrets (host, SSH key) are injected
+  from GitHub Actions secrets.
+
+> Both workflows are **disabled in this public mirror**: their automatic triggers are
+> removed and each job is guarded with `if: ${{ false }}`, so nothing runs here. They are
+> included to show the pipeline; the live versions run in the private repo.
+
 ## Layout
 
 ```
+.github/workflows/  CI (test) + CD (deploy) pipelines
 app/                Next.js routes (App Router)
   api/              Revalidation + cache-warming endpoints
   (home)/, music/, tour/, video/, about/
