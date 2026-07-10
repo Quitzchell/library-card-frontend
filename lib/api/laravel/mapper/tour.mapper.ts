@@ -19,7 +19,7 @@ export function mapTour(
         date: new Date(tourDate.date),
         venue: venue,
         ticket_url: tourDate?.ticket_url,
-        sold_out: tourDate.sold_out,
+        status: tourDate.status,
       };
     },
   );

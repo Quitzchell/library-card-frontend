@@ -12,25 +12,24 @@ Renders a home, music, tour, video, and about page; pulls content from a headles
 - Next.js 15 (App Router) + React 19 + TypeScript
 - Tailwind CSS 4 + shadcn/ui (Radix primitives)
 - Vitest + Testing Library
-- Upstash Redis for cache
-- Vercel for hosting; Vercel Cron for scheduled cache warming
-- Docker for local dev
+- ISR + on-demand revalidation for content caching
+- GitHub Actions for CI (Vitest) and CD (SSH deploy to a VPS)
+- Docker for local dev and production
 
 ## Architecture
 
-The frontend talks to a headless CMS via a pluggable repository layer. Three modes are
-selectable at build time via `NEXT_PUBLIC_USE_API`:
+The frontend talks to a headless CMS via a pluggable repository layer, selectable via
+`NEXT_PUBLIC_USE_API`:
 
 - `mock` — in-process fixtures, no backend required (`lib/api/mock/`)
-- `django` — original Django REST backend (`lib/api/django/`)
-- `laravel` — current Laravel + Filament backend (`lib/api/laravel/`)
+- `laravel` — Laravel + Filament backend (`lib/api/laravel/`)
 
 The Laravel mode includes a mapper layer that adapts Filament's API resource shape to the
-domain interfaces in `lib/interfaces/`.
+domain interfaces in `lib/interfaces/`. (An earlier Django REST backend has since been retired.)
 
-Pages use ISR; the backend pushes to `/api/revalidate` (HMAC-style shared-secret check) on
-content changes, and a daily Vercel Cron hits `/api/warm-cache` to keep the most-visited
-endpoints warm. Upstash Redis acts as a fallback cache when the backend is unreachable.
+Pages use ISR; on content changes the backend calls `/api/revalidate` (authenticated with a
+shared secret in the `x-revalidation-secret` header, compared in constant time), which
+revalidates the affected paths so the next visitor gets fresh content.
 
 ## Getting started
 
@@ -49,6 +48,8 @@ Or with Docker:
 make up      # docker compose up -d
 make shell   # exec into the container
 make down    # tear down
+make reset   # rebuild from a clean slate (down -v + up --build)
+make clean   # remove built images + volumes
 ```
 
 ## Scripts
@@ -60,6 +61,7 @@ make down    # tear down
 | `npm run start` | Run production build |
 | `npm run lint` | ESLint |
 | `npm run format` | Prettier (write) |
+| `npm run format:check` | Prettier (check) |
 | `npm test` | Vitest run |
 | `npm run test:watch` | Vitest watch |
 
@@ -83,13 +85,13 @@ GitHub Actions drive both continuous integration and deployment (`.github/workfl
 ```
 .github/workflows/  CI (test) + CD (deploy) pipelines
 app/                Next.js routes (App Router)
-  api/              Revalidation + cache-warming endpoints
+  api/              On-demand revalidation endpoint
   (home)/, music/, tour/, video/, about/
   _components/      Shared layout/UI components
 lib/
-  api/              Backend clients (mock | django | laravel) + repositories
+  api/              Backend clients (mock | laravel) + repositories
   interfaces/       Domain types
-  cache.ts          Upstash Redis wrapper
+  services.config.ts  API-mode selector (NEXT_PUBLIC_USE_API)
 factories/          Icon factory (react-icons)
 utils/              Date/page/classname helpers (with tests)
 ```

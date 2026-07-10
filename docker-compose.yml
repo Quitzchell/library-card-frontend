@@ -6,6 +6,10 @@ services:
     container_name: library-card-frontend
     volumes:
       - .:/var/www/html
+      # Keep node_modules container-native (linux-musl) so the host's macOS
+      # binaries (lightningcss etc.) don't shadow it via the bind mount above.
+      # Named (not anonymous) volumes so they persist across up/down and can be
+      # reset deterministically with `docker compose down -v` (see `make reset`).
       - node_modules:/var/www/html/node_modules
       - next_cache:/var/www/html/.next
     ports:
@@ -22,6 +26,10 @@ services:
           "--quiet",
           "--tries=1",
           "--spider",
+          # Use 127.0.0.1, not localhost: the dev server binds IPv4-only
+          # (0.0.0.0), but `localhost` resolves to ::1 (IPv6) first in Alpine,
+          # so a `localhost` probe gets connection-refused and marks the
+          # container permanently unhealthy despite it serving fine.
           "http://127.0.0.1:3000",
         ]
       interval: 10s

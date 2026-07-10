@@ -28,7 +28,7 @@ vi.mock("next/link", () => ({
   ),
 }));
 
-import { TourDateEnum } from "@/lib/enums/tour-date";
+import { TourDateEnum, TourStatus } from "@/lib/enums/tour-date";
 import { TourDate, TourResponse } from "@/lib/interfaces/tour";
 import TourList from "../TourList";
 
@@ -41,6 +41,7 @@ function makeTourDate(overrides: Partial<TourDate> = {}): TourDate {
     id: 1,
     date: new Date("2026-06-15T00:00:00"),
     venue: { id: 1, name: "Test Venue", city: "Test City", country: "NL" },
+    status: TourStatus.ON_SALE,
     ...overrides,
   };
 }
@@ -93,9 +94,9 @@ describe("TourList", () => {
 
   // ─── TicketButtonContent: sold out state ──────────────────────────
 
-  it('shows "Sold out" with strikethrough when sold_out is true', () => {
+  it('shows "Sold out" with strikethrough when status is sold_out', () => {
     const tourDate = makeTourDate({
-      sold_out: true,
+      status: TourStatus.SOLD_OUT,
       ticket_url: "https://tickets.com",
     });
 
@@ -114,10 +115,10 @@ describe("TourList", () => {
 
   // ─── TicketButtonContent: has ticket URL ──────────────────────────
 
-  it("renders a ticket link when ticket_url is present and not sold out", () => {
+  it("renders a ticket link when status is on_sale and ticket_url is present", () => {
     const tourDate = makeTourDate({
       ticket_url: "https://ticketmaster.com/show123",
-      sold_out: false,
+      status: TourStatus.ON_SALE,
     });
 
     render(
@@ -137,9 +138,9 @@ describe("TourList", () => {
 
   // ─── TicketButtonContent: free event ──────────────────────────────
 
-  it('shows "Free event" when no ticket_url and not sold out', () => {
+  it('shows "Free event" when status is free', () => {
     const tourDate = makeTourDate({
-      // No ticket_url, no sold_out
+      status: TourStatus.FREE,
     });
 
     render(
@@ -152,12 +153,29 @@ describe("TourList", () => {
     expect(screen.getByText("Free event")).toBeInTheDocument();
   });
 
+  // ─── TicketButtonContent: announced, not on sale ──────────────────
+
+  it('shows "On sale soon" when status is announced', () => {
+    const tourDate = makeTourDate({
+      status: TourStatus.ANNOUNCED,
+    });
+
+    render(
+      <TourList
+        tourDates={makeTourResponse([tourDate])}
+        direction={TourDateEnum.UPCOMING}
+      />,
+    );
+
+    expect(screen.getByText("On sale soon")).toBeInTheDocument();
+  });
+
   // ─── Past direction: no ticket buttons ────────────────────────────
 
   it("does not show ticket buttons for past shows", () => {
     const tourDate = makeTourDate({
       ticket_url: "https://tickets.com",
-      sold_out: false,
+      status: TourStatus.ON_SALE,
     });
 
     render(

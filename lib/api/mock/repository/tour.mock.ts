@@ -1,3 +1,4 @@
+import { TourStatus } from "@/lib/enums/tour-date";
 import { TourDate, TourResponse } from "@/lib/interfaces/tour";
 
 const sortDataByDirection = (direction: string) =>
@@ -85,19 +86,20 @@ const TourDateList: Array<TourDate> = [
     id: 1,
     venue: { id: 1, name: "Rotown", city: "Rotterdam", country: "NL" },
     ticket_url: "https://ticketurl.com",
-    sold_out: false,
+    status: TourStatus.ON_SALE,
     date: new Date("2025-01-01"),
   },
   {
     id: 2,
     venue: { id: 2, name: "Paradiso", city: "Amsterdam", country: "NL" },
+    status: TourStatus.FREE,
     date: new Date("2025-01-02"),
   },
   {
     id: 3,
     venue: { id: 3, name: "Doornroosje", city: "Nijmegen", country: "NL" },
     ticket_url: "https://ticketurl.com",
-    sold_out: true,
+    status: TourStatus.SOLD_OUT,
     date: new Date("2025-01-03"),
   },
   {
@@ -109,7 +111,7 @@ const TourDateList: Array<TourDate> = [
       country: "USA",
     },
     ticket_url: "https://boweryballroom.com/tickets",
-    sold_out: false,
+    status: TourStatus.ON_SALE,
     date: new Date("2025-01-04"),
   },
   {
@@ -121,7 +123,7 @@ const TourDateList: Array<TourDate> = [
       country: "USA",
     },
     ticket_url: "https://troubadour.com/shows",
-    sold_out: true,
+    status: TourStatus.SOLD_OUT,
     date: new Date("2025-01-05"),
   },
   {
@@ -132,7 +134,7 @@ const TourDateList: Array<TourDate> = [
       city: "Minneapolis",
       country: "USA",
     },
-    sold_out: false,
+    status: TourStatus.FREE,
     date: new Date("2025-01-06"),
   },
   {
@@ -144,7 +146,7 @@ const TourDateList: Array<TourDate> = [
       country: "UK",
     },
     ticket_url: "https://academymusicgroup.com/o2academybrixton",
-    sold_out: true,
+    status: TourStatus.SOLD_OUT,
     date: new Date("2025-01-07"),
   },
   {
@@ -156,20 +158,20 @@ const TourDateList: Array<TourDate> = [
       country: "UK",
     },
     ticket_url: "https://roundhouse.org.uk",
-    sold_out: false,
+    status: TourStatus.ON_SALE,
     date: new Date("2026-01-08"),
   },
   {
     id: 9,
     venue: { id: 9, name: "La Cigale", city: "Paris", country: "FR" },
-    sold_out: false,
+    status: TourStatus.ANNOUNCED,
     date: new Date("2026-01-01"),
   },
   {
     id: 10,
     venue: { id: 10, name: "Olympia", city: "Paris", country: "FR" },
     ticket_url: "https://olympiahall.com/tickets",
-    sold_out: true,
+    status: TourStatus.SOLD_OUT,
     date: new Date("2026-01-02"),
   },
   {
@@ -181,7 +183,7 @@ const TourDateList: Array<TourDate> = [
       country: "DE",
     },
     ticket_url: "https://columbiahalle.de",
-    sold_out: false,
+    status: TourStatus.ON_SALE,
     date: new Date("2026-01-03"),
   },
   {
@@ -192,7 +194,7 @@ const TourDateList: Array<TourDate> = [
       city: "Frankfurt",
       country: "DE",
     },
-    sold_out: false,
+    status: TourStatus.ANNOUNCED,
     date: new Date("2026-01-04"),
   },
   {
@@ -204,14 +206,14 @@ const TourDateList: Array<TourDate> = [
       country: "ES",
     },
     ticket_url: "https://sala-apolo.com",
-    sold_out: true,
+    status: TourStatus.SOLD_OUT,
     date: new Date("2026-01-05"),
   },
   {
     id: 14,
     venue: { id: 14, name: "Joy Eslava", city: "Madrid", country: "ES" },
     ticket_url: "https://joyeslava.com/eventos",
-    sold_out: false,
+    status: TourStatus.ON_SALE,
     date: new Date("2026-01-06"),
   },
   {
@@ -222,13 +224,13 @@ const TourDateList: Array<TourDate> = [
       city: "Toronto",
       country: "CA",
     },
-    sold_out: true,
+    status: TourStatus.SOLD_OUT,
     date: new Date("2026-01-07"),
   },
   {
     id: 16,
     venue: { id: 16, name: "Vera", city: "Groningen", country: "NL" },
-    sold_out: true,
+    status: TourStatus.SOLD_OUT,
     date: new Date("2026-01-08"),
   },
 ];

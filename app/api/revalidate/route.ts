@@ -1,7 +1,6 @@
 import { timingSafeEqual } from "crypto";
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
-import { getEndpointsForPaths, warmEndpoints } from "@/lib/cache-endpoints";
 
 const ALLOWED_PATHS = ["/", "/music", "/tour", "/video", "/about"];
 
@@ -31,12 +30,6 @@ export async function POST(request: NextRequest) {
 
     for (const path of paths) {
       revalidatePath(path);
-    }
-
-    // Warm cache only for the endpoints used by the revalidated pages
-    const endpoints = getEndpointsForPaths(paths);
-    if (endpoints.length > 0) {
-      await warmEndpoints(endpoints);
     }
 
     return NextResponse.json({ revalidated: true, paths });

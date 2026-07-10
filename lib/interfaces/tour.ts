@@ -1,3 +1,5 @@
+import { TourStatus } from "@/lib/enums/tour-date";
+
 export type Venue = {
   id: number;
   name: string;
@@ -10,7 +12,7 @@ export interface TourDate {
   date: Date;
   venue: Venue;
   ticket_url?: string;
-  sold_out?: boolean;
+  status: TourStatus;
 }
 
 export interface TourResponse {

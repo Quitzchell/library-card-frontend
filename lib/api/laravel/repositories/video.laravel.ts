@@ -6,7 +6,10 @@ import { LaravelResponse } from "@/lib/api/laravel/interfaces/responses";
 import { LaravelVideo } from "@/lib/api/laravel/interfaces/video";
 
 export const videoService = {
-  async getVideoItems({ take, category }: {
+  async getVideoItems({
+    take,
+    category,
+  }: {
     take?: number;
     category?: VideoCategory;
   } = {}): Promise<VideoResponse> {
@@ -17,9 +20,9 @@ export const videoService = {
     const query = params.toString();
 
     const response = await apiClient.get<LaravelResponse<LaravelVideo[]>>(
-      `/videos${query ? `?${query}` : ""}`
+      `/videos${query ? `?${query}` : ""}`,
     );
 
     return mapVideo(response);
-  }
+  },
 };

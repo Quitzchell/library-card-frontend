@@ -14,17 +14,8 @@ const remotePatterns: NonNullable<
   },
 ];
 
-const supabaseUrl = process.env.SUPABASE_URL;
-if (supabaseUrl) {
-  const supaUrl = new URL(supabaseUrl);
-  remotePatterns.push({
-    protocol: "https" as const,
-    hostname: supaUrl.hostname,
-    pathname: "/storage/v1/object/public/**",
-  });
-}
-
 const nextConfig: NextConfig = {
+  output: "standalone",
   images: {
     unoptimized: true,
     remotePatterns,

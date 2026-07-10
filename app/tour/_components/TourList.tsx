@@ -1,4 +1,4 @@
-import { TourDateEnum } from "@/lib/enums/tour-date";
+import { TourDateEnum, TourStatus } from "@/lib/enums/tour-date";
 import { TourDate, TourResponse } from "@/lib/interfaces/tour";
 import { cn } from "@/utils/classnames";
 import { formatDate } from "@/utils/date";
@@ -12,10 +12,10 @@ type TourListProps = {
 };
 
 export default function TourList({
-                                   tourDates,
-                                   direction,
-                                   emptySlots = 0,
-                                 }: TourListProps) {
+  tourDates,
+  direction,
+  emptySlots = 0,
+}: TourListProps) {
   const isUpcoming = direction === TourDateEnum.UPCOMING;
 
   return (
@@ -32,9 +32,9 @@ export default function TourList({
 }
 
 function TourRow({
-                   tourDate,
-                   showTickets,
-                 }: {
+  tourDate,
+  showTickets,
+}: {
   tourDate: TourDate;
   showTickets: boolean;
 }) {
@@ -74,33 +74,7 @@ function TicketButtonContent({ tourDate }: { tourDate: TourDate }) {
   const baseClasses =
     "col-span-4 md:col-span-2 px-4 flex size-full text-center items-center justify-center border whitespace-normal h-auto";
 
-  if (tourDate.sold_out)
-    return (
-      <Button
-        variant="outline"
-        disabled
-        aria-disabled
-        asChild
-        className={cn(baseClasses, "hover:cursor-not-allowed")}
-      >
-        <p className="font-semibold text-balance break-words whitespace-normal line-through">
-          Sold out
-        </p>
-      </Button>
-    );
-
-  if (tourDate.ticket_url)
-    return (
-      <Button asChild variant="outline" className={baseClasses}>
-        <Link href={tourDate.ticket_url} target="_blank">
-          <p className="font-semibold text-balance break-words whitespace-normal">
-            Tickets
-          </p>
-        </Link>
-      </Button>
-    );
-
-  return (
+  const disabledButton = (label: string, extraClasses?: string) => (
     <Button
       asChild
       variant="outline"
@@ -108,9 +82,38 @@ function TicketButtonContent({ tourDate }: { tourDate: TourDate }) {
       aria-disabled
       className={cn(baseClasses, "hover:cursor-not-allowed")}
     >
-      <p className="font-semibold text-balance break-words whitespace-normal">
-        Free event
+      <p
+        className={cn(
+          "font-semibold text-balance break-words whitespace-normal",
+          extraClasses,
+        )}
+      >
+        {label}
       </p>
     </Button>
   );
+
+  switch (tourDate.status) {
+    case TourStatus.SOLD_OUT:
+      return disabledButton("Sold out", "line-through");
+
+    case TourStatus.FREE:
+      return disabledButton("Free event");
+
+    case TourStatus.ANNOUNCED:
+      return disabledButton("On sale soon");
+
+    case TourStatus.ON_SALE:
+      return tourDate.ticket_url ? (
+        <Button asChild variant="outline" className={baseClasses}>
+          <Link href={tourDate.ticket_url} target="_blank">
+            <p className="font-semibold text-balance break-words whitespace-normal">
+              Tickets
+            </p>
+          </Link>
+        </Button>
+      ) : (
+        disabledButton("On sale soon")
+      );
+  }
 }

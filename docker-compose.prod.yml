@@ -1,0 +1,27 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: dockerfile.prod
+      args:
+        # Interpolated from --env-file at build time. MUST be public URLs.
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL}
+        NEXT_PUBLIC_MEDIA_URL: ${NEXT_PUBLIC_MEDIA_URL}
+        NEXT_PUBLIC_USE_API: ${NEXT_PUBLIC_USE_API:-laravel}
+    image: library-card-frontend
+    container_name: library-card-frontend
+    restart: unless-stopped
+    # Runtime vars (BACKEND_URL, REVALIDATION_SECRET, ...) into the running container.
+    env_file:
+      - .env.production
+    # No `ports:` — never published to the host. Caddy reaches it over the network.
+    expose:
+      - "3000"
+    networks:
+      - proxy
+
+networks:
+  # Attach to the shared external network Caddy + pera-app are on.
+  proxy:
+    external: true
+    name: web

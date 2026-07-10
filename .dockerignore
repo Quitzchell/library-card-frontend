@@ -16,7 +16,12 @@ Thumbs.db
 # Node
 node_modules/
 .next/
-.env.local
+
+# Env files — never copied into the image. Build-time vars come via build args,
+# runtime vars via docker compose env_file. Keeps secrets out of image layers.
+.env
+.env.*
+!.env*.example
 
 # Docs
 *.md

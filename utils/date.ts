@@ -17,7 +17,10 @@ export const formatDate = (
     },
   };
 
-  const formatOptions = options || baseOptions[partial];
+  const formatOptions: Intl.DateTimeFormatOptions = {
+    timeZone: "Europe/Amsterdam",
+    ...(options || baseOptions[partial]),
+  };
 
   return dateObj.toLocaleDateString("en-EN", formatOptions);
 };

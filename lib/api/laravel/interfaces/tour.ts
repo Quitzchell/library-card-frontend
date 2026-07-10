@@ -1,3 +1,5 @@
+import { TourStatus } from "@/lib/enums/tour-date";
+
 export interface LaravelVenue {
   id: number;
   name: string;
@@ -10,5 +12,5 @@ export interface LaravelTour {
   date: string;
   venue: LaravelVenue;
   ticket_url?: string;
-  sold_out: boolean;
+  status: TourStatus;
 }
