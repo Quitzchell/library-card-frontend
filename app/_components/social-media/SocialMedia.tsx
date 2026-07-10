@@ -3,14 +3,17 @@ import { resolveIcon } from "@/factories/icon-factory";
 import { SocialMediaLink } from "@/lib/interfaces/social-media";
 
 const platformIconMap: Record<string, string> = {
-  instagram: "FaInstagram",
-  facebook: "FaFacebook",
-  spotify: "FaSpotify",
-  apple_music: "FaApple",
-  soundcloud: "FaSoundcloud",
-  deezer: "FaDeezer",
-  youtube: "FaYoutube",
-  bandcamp: "FaBandcamp",
+  instagram: "SiInstagram",
+  facebook: "SiFacebook",
+  spotify: "SiSpotify",
+  apple_music: "SiApplemusic",
+  soundcloud: "SiSoundcloud",
+  deezer: "FaDeezer", // Simple Icons has no Deezer mark; fall back to Font Awesome
+  youtube: "SiYoutube",
+  bandcamp: "SiBandcamp",
+  threads: "SiThreads",
+  bluesky: "SiBluesky",
+  substack: "SiSubstack",
 };
 
 export default function SocialMedia({ link }: { link: SocialMediaLink }) {
@@ -21,7 +24,7 @@ export default function SocialMedia({ link }: { link: SocialMediaLink }) {
       href={link.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="hover:text-chart-1 text-white transition-colors"
+      className="hover:text-primary-accent text-white transition-colors"
     >
       {icon}
     </Link>

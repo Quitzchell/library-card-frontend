@@ -12,10 +12,10 @@ export default async function TeamSection() {
   }
 
   return (
-    <div className="grid gap-y-5 md:grid-cols-2 lg:grid-cols-4 lg:gap-0">
+    <div className="grid gap-y-8 md:grid-cols-2 2xl:grid-cols-4 2xl:gap-0">
       {teams.map((team: Team, index: number) => (
         <div className="space-y-2" key={index}>
-          <p className="mb-2 font-bold text-white capitalize">
+          <p className="mb-2 font-bold text-white capitalize underline">
             {team.category}
           </p>
           {team.members.map((member: Member, index: number) => (

@@ -11,9 +11,11 @@ export default async function SocialMediaSection() {
     return (
       <div className="flex flex-col">
         <p className="mb-2 font-bold text-white">Follow us</p>
-        {links.map((link: SocialMediaLink, index: number) => (
-          <SocialMedia key={index} link={link} />
-        ))}
+        <div className="flex gap-x-3">
+          {links.map((link: SocialMediaLink, index: number) => (
+            <SocialMedia key={index} link={link} />
+          ))}
+        </div>
       </div>
     );
   } catch {

@@ -6,7 +6,7 @@ export default function VideoPage() {
   const categories = Object.values(VideoCategory);
 
   return (
-    <div className="flex grow-1 flex-col py-8">
+    <div className="flex grow flex-col py-8">
       <div className="container">
         <PageHeader title="video" />
       </div>

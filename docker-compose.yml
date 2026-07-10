@@ -2,11 +2,12 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: dev.dockerfile
+      dockerfile: dockerfile.dev
     container_name: library-card-frontend
     volumes:
       - .:/var/www/html
-      - /var/www/html/.next
+      - node_modules:/var/www/html/node_modules
+      - next_cache:/var/www/html/.next
     ports:
       - "3000:3000"
     env_file:
@@ -21,9 +22,13 @@ services:
           "--quiet",
           "--tries=1",
           "--spider",
-          "http://localhost:3000",
+          "http://127.0.0.1:3000",
         ]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 30s
+
+volumes:
+  node_modules:
+  next_cache:

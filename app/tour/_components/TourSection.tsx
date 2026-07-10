@@ -8,13 +8,13 @@ import TourList from "@/app/tour/_components/TourList";
 type TourSectionProps = {
   direction: TourDateEnum;
   page: number;
+  perPage?: number;
 };
-
-const PER_PAGE = 5;
 
 export default async function TourSection({
   direction,
   page,
+  perPage = 5,
 }: TourSectionProps) {
   const fetcher =
     direction === TourDateEnum.UPCOMING
@@ -23,13 +23,13 @@ export default async function TourSection({
 
   let data, meta;
   try {
-    ({ data, meta } = await fetcher(page, PER_PAGE));
+    ({ data, meta } = await fetcher(page, perPage));
   } catch {
     return null;
   }
 
   const totalPages = meta?.total_pages ?? 1;
-  const emptySlots = calculateEmptySlots(data.length, totalPages, PER_PAGE);
+  const emptySlots = calculateEmptySlots(data.length, totalPages, perPage);
   const paramName =
     direction === TourDateEnum.UPCOMING ? "upcoming_page" : "past_page";
 

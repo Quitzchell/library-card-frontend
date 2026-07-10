@@ -13,7 +13,7 @@ export default async function TourPage({ searchParams }: TourPageProps) {
   const pastPage = sanitizePageParam(params.past_page);
 
   return (
-    <div className="flex grow-1 flex-col py-8">
+    <div className="flex grow flex-col py-8">
       <div className="container">
         <PageHeader title="tour" />
       </div>
